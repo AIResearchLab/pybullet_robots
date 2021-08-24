@@ -1,7 +1,7 @@
 from time import sleep
 import pybullet as p
 import numpy as np
-
+import pdb
 
 
 def setUpWorld(initialSimSteps=100):
@@ -26,7 +26,7 @@ def setUpWorld(initialSimSteps=100):
     sleep(0.1)
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING,0)
     # Load Baxter
-    baxterId = p.loadURDF("baxter_common/baxter_description/urdf/dx_b.urdf", useFixedBase=True)
+    baxterId = p.loadURDF("baxter_common/baxter_description/urdf/d_bx.urdf", useFixedBase=True)
     p.resetBasePositionAndOrientation(baxterId, [0.5, -0.8, 0.0], [0., 0., -1., -1.])
     #p.resetBasePositionAndOrientation(baxterId, [0.5, -0.8, 0.0],[0,0,0,1])
     #p.resetBasePositionAndOrientation(baxterId, [0, 0, 0], )
@@ -34,7 +34,7 @@ def setUpWorld(initialSimSteps=100):
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING,1)
 
     # Grab relevant joint IDs
-    endEffectorId = 48 # (left gripper left finger)
+    endEffectorId = 36#48 # (left gripper left finger)
 
     # Set gravity
     p.setGravity(0., 0., -10.)
@@ -177,6 +177,16 @@ if __name__ == "__main__":
     sleep(1.)
 
     p.getCameraImage(320,200, renderer=p.ER_BULLET_HARDWARE_OPENGL )
+    
+    
+    #_link_name_to_index = {p.getBodyInfo(baxterId)[0].decode('UTF-8'):-1,}
+        
+    #for _id in range(p.getNumJoints(baxterId)):
+    #    _name = p.getJointInfo(baxterId, _id)[12].decode('UTF-8')
+    #    _link_name_to_index[_name] = _id
+    #    print(_name,'---',_link_name_to_index[_name])
+    #pdb.set_trace()
+    
     for _ in range(maxIters):
       p.stepSimulation()
       targetPosX = p.readUserDebugParameter(targetPosXId)
@@ -188,6 +198,7 @@ if __name__ == "__main__":
       
       useNullSpace = nullSpace>0.5
       print("useNullSpace=",useNullSpace)
+
       jointPoses = accurateIK(baxterId, endEffectorId, targetPosition, lowerLimits, upperLimits, jointRanges, restPoses, useNullSpace=useNullSpace)
       setMotors(baxterId, jointPoses)
 

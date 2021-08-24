@@ -26,7 +26,7 @@ def setUpWorld(initialSimSteps=100):
     sleep(0.1)
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING,0)
     # Load Baxter
-    baxterId = p.loadURDF("baxter_common/baxter_description/urdf/toms_baxter.urdf", useFixedBase=True)
+    baxterId = p.loadURDF("baxter_common/baxter_description/urdf/dx_b.urdf", useFixedBase=True)
     p.resetBasePositionAndOrientation(baxterId, [0.5, -0.8, 0.0], [0., 0., -1., -1.])
     #p.resetBasePositionAndOrientation(baxterId, [0.5, -0.8, 0.0],[0,0,0,1])
     #p.resetBasePositionAndOrientation(baxterId, [0, 0, 0], )
